@@ -31,7 +31,7 @@
       <input type="text" id="uri" value="/ws" class="form-control" placeholder="url"/><br />
       <input type="submit" id="open" class="btn btn-primary" value="open" />
     </div>
-    <div id="message_details">
+    <div id="message_details" align="center">
         </br></br>
         <input type="submit" id="sendcmd" class="btn btn-primary" align="center" value="Init FPGA" />
     </div>
@@ -176,12 +176,9 @@
         function send_data() {
             var pix_x = ((4.0/scalefactor) / COLS);
             var pix_y = ((4.0/scalefactor) / ROWS);
- 
             var x_min = xcoord - COLS/2 * pix_x;
             var y_min = ycoord - ROWS/2 * pix_y;
- 
             var data = [x_min, y_min, pix_x, pix_y];
- 
             var json_obj = { "type": "GET_IMAGE", "payload": data };
             ws.send(JSON.stringify(json_obj));
             scalefactor *= zoomrate;
