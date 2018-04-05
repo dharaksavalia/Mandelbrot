@@ -54,8 +54,8 @@
       console.log(data);
     };
     $(document).ready(function () {
-      $("div#message_details")
-      $("div#send_data")
+      $("div#message_details").hide();
+      $("div#send_data").hide();
       var ws;
       $("#open").click(function (evt) {
         evt.preventDefault();
@@ -118,35 +118,24 @@
         var json_obj = { "type": "CLEAN_KERNEL", "payload": null };
         ws.send(JSON.stringify(json_obj));
       });
-      // This is needed to test the single request for an image
+      // This is get an image.
       $("#senddata").click(function (evt) {
         //for displaying the map
-        //change the url or take url from input 
-        var imageURL = "http://planetfacts.org/wp-content/uploads/2012/06/Moon-size-compare-to-Earth.jpg";
-        console.log();
-        var extent = [0, 0, 1024, 1024];
-        var projection = new ol.proj.Projection({
-          code: 'xkcd-image',
-          units: 'pixels',
-          extent: extent
-        });
+        //change the url or take url from input
+        var urlsource= "ws://" + host + ":" + port + uri;
+        console.log("url"+urlsource);
         var map = new ol.Map({
+          target: 'map',
           layers: [
-            new ol.layer.Image({
-              source: new ol.source.ImageStatic({
-                attributions: '<a href="">xkcd</a>',
-                url: imageURL,
-                projection: projection,
-                imageExtent: extent
+            new ol.layer.Tile({
+              source: new ol.source.XYZ({
+                url: urlsource+'/{z}/{x}/{y}.png'//formate the url based on your requirement.
               })
             })
           ],
-          target: 'myImage',
           view: new ol.View({
-            projection: projection,
-            center: ol.extent.getCenter(extent),
-            zoom: 2,
-            maxZoom: 8
+            center: [0, 0],//defualt parameters
+            zoom: 2//defualt zooming
           })
         });
       });
@@ -163,16 +152,6 @@
 
       // Function that sends the data through websockets and increases the scalefactor
       // authomatically for the next image request
-      function send_data() {
-        var pix_x = ((4.0 / scalefactor) / COLS);
-        var pix_y = ((4.0 / scalefactor) / ROWS);
-        var x_min = xcoord - COLS / 2 * pix_x;
-        var y_min = ycoord - ROWS / 2 * pix_y;
-        var data = [x_min, y_min, pix_x, pix_y];
-        var json_obj = { "type": "GET_IMAGE", "payload": data };
-        ws.send(JSON.stringify(json_obj));
-        scalefactor *= zoomrate;
-      }
     });
   </script>
   <!--Social Media Buttons-->
