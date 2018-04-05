@@ -17,7 +17,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <title>Mandelbrot</title>
   </head>
   <body>
@@ -25,7 +24,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <h2 align="center">Mandelbrot</h2>
-    <div id="connection_details" align="center" class="form-group">
+    <div id="connection_details" align="center" >
       <input type="text" id="host" value="localhost" class="form-control" placeholder="host"/><br />
       <input type="text" id="port" value="8080" class="form-control" placeholder="port"/><br />
       <input type="text" id="uri" value="/ws" class="form-control" placeholder="url"/><br />
@@ -36,33 +35,16 @@
         <input type="submit" id="sendcmd" class="btn btn-primary" align="center" value="Init FPGA" />
     </div>
     <div id="send_data" align="center">
-        <input type="text" class="form-control" id="xcoord" placeholder="X coordinate"/>
-        <input type="text" class="form-control" id="ycoord" placeholder="Y cordinate"/><br />
-        <input type="text" id="scalefactor" class="form-control" placeholder="Scale factor"/><br />
-        <input type="submit" id="senddata" value="send data" class="btn btn-primary"/><br />
-        <input type="text" id="zoomrate" class="form-control" placeholder="Zoom Rate">
-        <input type="submit" id="sequence" value="stream" class="btn btn-primary"/>
-        <br />
+        <input type="submit" id="senddata" value="Get Image" class="btn btn-primary"/><br />
         <input type="submit" id="clean" value="clean kernel" class="btn btn-primary"/>
     </div>
     <img id="mandelbrot" src="">
     <div id="myImage" class="img-rounded"></div>
     <script type="text/javascript">
-      // height and width of the image
-      const ROWS = 512;
-      const COLS = 512;
-      // global variables that keep track of the total number of
-      // 
-      var repetitions = 0;
-      var xcoord = 0;
-      var ycoord = 0;
-      var scalefactor = 0;
-      // log function
       log = function(data){
         $("div#terminal").prepend("</br>" +data);
         console.log(data);
       };
- 
       $(document).ready(function () {
         $("div#message_details")
         $("div#send_data")
