@@ -12,7 +12,7 @@ from server_api import *
 SOCKET        = "SOCKET"
 
 # Server defines
-PORT          = 8080
+PORT          = 8090
 
 # Communication protocol defines
 WRITE_DATA    = "WRITE_DATA"
@@ -70,7 +70,7 @@ def main():
   # Opening socket with host
   global sock
 
-  sock = get_socket()
+ # sock = get_socket()
 
   application = tornado.web.Application([
     (r'/ws', WSHandler),
@@ -89,6 +89,7 @@ def main():
   tornado.ioloop.IOLoop.instance().start()
 
 def get_socket():
+  #funtion gives connection socket to FPA accelerator
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     server_address = (SOCKET)
     sock.connect(server_address)
@@ -96,6 +97,7 @@ def get_socket():
     return sock
 
 def handle_request(header, payload):
+  print("requested came"+str(header)+str(payload))
   if header == WRITE_DATA:
     response = write_data_handler(sock, header, payload, False)
   elif header == READ_DATA:
@@ -105,6 +107,7 @@ def handle_request(header, payload):
   elif header:
     response = socket_send_command(sock, header)
   else:
+    print("Invalid Response")
     response = INVALID_DATA
 
   return {'type' : header, 'data': response}
