@@ -14,9 +14,9 @@ class DemoHandler(tornado.web.RequestHandler):
        self.render("demo.html")
 class ImagesHandler(tornado.web.RequestHandler):
     # handles images request via get request 
-    def get(self,zoom,xcooridinate,ycoordinate):
+    def get(self,param1,param2,param3):
         outputImg=io.BytesIO()
-        self.getImage(int(zoom),int(xcooridinate),int(ycoordinate))# get image passing this parameters
+        self.getImage(int(aram1),int(param2),int(param3))# get image passing this parameters
         self.img.save(outputImg,"JPEG")# self.write expects an byte type output therefore we convert image into byteIO steam
         self.set_header("Connection","keep-alive")
         self.set_header("Content-Type", "image/jpeg")
@@ -24,9 +24,7 @@ class ImagesHandler(tornado.web.RequestHandler):
     def getImage(self,param1,param2,param3):
         #dummy image generation
         self.img = Image.new('RGB', (256, 256), ((param1)*18%256,(param2)*126%256,(param3)*150%256))
-    def convertZXYtoreuqired(self,z,x,y):
-        #TODO given zoom level x y tile in required parameter of the fpa circuit
-
+    
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
